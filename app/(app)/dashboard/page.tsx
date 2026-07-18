@@ -69,7 +69,6 @@ const priorityTone = { High: "danger", Medium: "warning", Low: "info" } as const
 
 export default function DashboardPage() {
   const firstName = currentUser.name.split(" ")[0];
-  const openStages = stages.filter((s) => s.id !== "won");
   const funnelStages = stages;
   const totalPipeline = stages.reduce((s, st) => s + stageTotal(st.id), 0);
   const wonCount = dealsByStage("won").length;
