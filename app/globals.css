@@ -1,0 +1,178 @@
+@import "tailwindcss";
+
+/*
+  Northstar CRM — semantic design tokens (PRD §18.5).
+  Light and dark are first-class; theme is applied before first paint
+  via next-themes class strategy. No hard-coded colors in components.
+*/
+
+:root {
+  /* canvas & surfaces */
+  --canvas: #f6f7f9;
+  --surface: #ffffff;
+  --surface-elevated: #ffffff;
+  --sidebar: #ffffff;
+  --overlay: rgb(15 23 41 / 0.45);
+
+  /* text */
+  --text-primary: #101828;
+  --text-secondary: #384153;
+  --text-muted: #667085;
+
+  /* borders */
+  --border: #e6e9ef;
+  --border-strong: #d5dae3;
+
+  /* brand */
+  --brand: #2563eb;
+  --brand-hover: #1d4fd7;
+  --brand-soft: #eaf0fe;
+  --brand-foreground: #ffffff;
+  --accent: #7c3aed;
+
+  /* semantic states */
+  --success: #16a34a;
+  --success-soft: #e7f6ec;
+  --warning: #d97706;
+  --warning-soft: #fdf3e2;
+  --danger: #dc2626;
+  --danger-soft: #fdebeb;
+  --info: #0284c7;
+  --info-soft: #e6f4fb;
+
+  /* interactive */
+  --hover: #f2f4f7;
+  --selected: #eaf0fe;
+  --focus-ring: #2563eb;
+
+  /* data-viz stage palette (matches pipeline mockup) */
+  --stage-1: #3b82f6;
+  --stage-2: #06b6d4;
+  --stage-3: #8b5cf6;
+  --stage-4: #f59e0b;
+  --stage-5: #22c55e;
+  --stage-6: #64748b;
+
+  --radius: 0.625rem;
+  --shadow-card: 0 1px 2px rgb(16 24 40 / 0.04), 0 1px 3px rgb(16 24 40 / 0.06);
+  --shadow-pop: 0 8px 24px rgb(16 24 40 / 0.12);
+}
+
+.dark {
+  --canvas: #0a0c11;
+  --surface: #12151c;
+  --surface-elevated: #171b24;
+  --sidebar: #0d1016;
+  --overlay: rgb(0 0 0 / 0.6);
+
+  --text-primary: #eceef2;
+  --text-secondary: #b6bcc9;
+  --text-muted: #8b93a4;
+
+  --border: #232834;
+  --border-strong: #303748;
+
+  --brand: #3b82f6;
+  --brand-hover: #5a8cf8;
+  --brand-soft: #16233d;
+  --brand-foreground: #ffffff;
+  --accent: #8b5cf6;
+
+  --success: #22c55e;
+  --success-soft: #122b1c;
+  --warning: #f59e0b;
+  --warning-soft: #2d2210;
+  --danger: #ef4444;
+  --danger-soft: #331516;
+  --info: #38bdf8;
+  --info-soft: #0e2433;
+
+  --hover: #1a1f29;
+  --selected: #16233d;
+  --focus-ring: #3b82f6;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-pop: 0 8px 24px rgb(0 0 0 / 0.5);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-elevated: var(--surface-elevated);
+  --color-sidebar: var(--sidebar);
+  --color-overlay: var(--overlay);
+
+  --color-foreground: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-accent: var(--accent);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  --color-hover: var(--hover);
+  --color-selected: var(--selected);
+  --color-focus: var(--focus-ring);
+
+  --color-stage-1: var(--stage-1);
+  --color-stage-2: var(--stage-2);
+  --color-stage-3: var(--stage-3);
+  --color-stage-4: var(--stage-4);
+  --color-stage-5: var(--stage-5);
+  --color-stage-6: var(--stage-6);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-pop: var(--shadow-pop);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  background: var(--canvas);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Accessible focus ring everywhere (PRD §18.7) */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* Thin scrollbars for board columns */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+::selection {
+  background: var(--brand-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
