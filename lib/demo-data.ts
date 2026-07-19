@@ -171,8 +171,8 @@ export const sparklines: Record<string, number[]> = {
 
 export const currentUser = {
   name: "Olivia Bennett",
-  org: "Northstar Services",
-  email: "olivia@northstarservices.com",
+  org: "Bennett Services",
+  email: "olivia@bennettservices.com",
   role: "owner",
 };
 

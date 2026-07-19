@@ -1,4 +1,4 @@
--- Northstar CRM — Row Level Security (PRD §7)
+-- SecondTab — Row Level Security (PRD §7)
 -- Deny-by-default on every table; no table ships without a policy.
 -- Role checks live INSIDE policies, not just application code.
 

@@ -1,4 +1,4 @@
--- Northstar CRM — core schema (Phase 1)
+-- SecondTab — core schema (Phase 1)
 -- All schema changes live in versioned migrations; no dashboard edits. (PRD §3)
 -- Every table gets deny-by-default RLS in 00000000000002_rls_policies.sql. (PRD §7)
 
@@ -87,7 +87,7 @@ $$;
 -- ============================================================
 create table instance_settings (
   id int primary key default 1 check (id = 1),
-  business_name text not null default 'Northstar CRM',
+  business_name text not null default 'SecondTab',
   logo_url text,
   brand_primary text not null default '#2563eb',
   brand_accent text not null default '#7c3aed',

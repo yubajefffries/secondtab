@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /*
-  Northstar CRM — semantic design tokens (PRD §18.5).
+  SecondTab — semantic design tokens (PRD §18.5).
   Light and dark are first-class; theme is applied before first paint
   via next-themes class strategy. No hard-coded colors in components.
 */

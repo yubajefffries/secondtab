@@ -1,7 +1,13 @@
 {
-  "name": "northstar-crm",
+  "name": "secondtab",
   "version": "0.1.0",
   "private": true,
+  "description": "Your relationships, one tab away. Open source CRM for small service businesses, self-hostable on Vercel + Supabase.",
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yubajefffries/secondtab.git"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

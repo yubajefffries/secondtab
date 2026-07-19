@@ -1,4 +1,4 @@
-# Northstar CRM — Instance Setup
+# SecondTab — Instance Setup
 
 Honest framing up front: the Vercel deploy itself is quick, but **connected email and QuickBooks require you to register your own developer apps** with Google, Microsoft, and Intuit. The CRM is fully usable without ever completing those registrations — they are optional modules.
 

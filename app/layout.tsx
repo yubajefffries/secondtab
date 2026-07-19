@@ -15,11 +15,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Northstar CRM",
-    template: "%s · Northstar CRM",
+    default: "SecondTab",
+    template: "%s · SecondTab",
   },
   description:
-    "Open source CRM for small service businesses. Self-hostable on Vercel + Supabase.",
+    "Your relationships, one tab away. Open source CRM for small service businesses, self-hostable on Vercel + Supabase.",
 };
 
 export default function RootLayout({

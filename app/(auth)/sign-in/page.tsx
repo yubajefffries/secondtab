@@ -13,8 +13,11 @@ export default function SignInPage() {
       <div className="w-full max-w-sm">
         <div className="mb-6 flex items-center justify-center gap-2">
           <Sparkles className="size-7 text-brand" aria-hidden />
-          <span className="text-xl font-bold tracking-tight">Northstar CRM</span>
+          <span className="text-xl font-bold tracking-tight">SecondTab</span>
         </div>
+        <p className="mb-6 -mt-4 text-center text-sm text-muted">
+          Your relationships, one tab away.
+        </p>
 
         <Card className="p-6">
           <h1 className="text-lg font-semibold">Sign in</h1>

@@ -47,7 +47,7 @@ export function Sidebar({ open }: { open: boolean }) {
     >
       <div className="flex h-16 items-center gap-2 px-5">
         <Sparkles className="size-6 text-brand" aria-hidden />
-        <span className="text-lg font-bold tracking-tight">Northstar CRM</span>
+        <span className="text-lg font-bold tracking-tight">SecondTab</span>
       </div>
 
       <nav aria-label="Primary" className="flex-1 overflow-y-auto px-3 py-2 thin-scroll">
