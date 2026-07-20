@@ -20,7 +20,11 @@ Thanks for considering a contribution. This project aims to be the CRM a small s
 
 ## Contributor License Agreement
 
-To keep future licensing options open (see PRD §15), external contributions require agreeing to a standard CLA. The CLA bot will prompt you on your first PR.
+To keep future licensing options open (see PRD §15), external contributions require signing the [Contributor License Agreement](docs/CLA.md). It's the one-time, sign-by-comment kind: on your first pull request, the CLA bot posts instructions, and you sign by replying
+
+> I have read the CLA Document and I hereby sign the CLA
+
+on the PR. Your signature is recorded once and covers all future contributions. The PR check stays red until every commit author on the PR has signed. If the check doesn't update after signing, comment `recheck`.
 
 ## Not sure where to start?
 
