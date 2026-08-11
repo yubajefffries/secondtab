@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useTheme } from "next-themes";
 import {
   Menu,
@@ -17,7 +19,7 @@ import {
   CheckSquare,
   StickyNote,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Avatar } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -28,6 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { currentUser } from "@/lib/demo-data";
+import { useDemoStore } from "@/lib/demo-store";
 import { cn } from "@/lib/utils";
 
 export function Topbar({
@@ -38,6 +41,8 @@ export function Topbar({
   onOpenSearch: () => void;
 }) {
   const { resolvedTheme, setTheme } = useTheme();
+  const router = useRouter();
+  const { setNewContactOpen } = useDemoStore();
   // true after hydration only; avoids a server/client mismatch on the theme toggle
   const mounted = React.useSyncExternalStore(
     React.useCallback(() => () => {}, []),
@@ -81,21 +86,43 @@ export function Topbar({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Create new</DropdownMenuLabel>
-            <DropdownMenuItem><UserPlus /> Contact</DropdownMenuItem>
-            <DropdownMenuItem><Building2 /> Company</DropdownMenuItem>
-            <DropdownMenuItem><Handshake /> Deal</DropdownMenuItem>
-            <DropdownMenuItem><CheckSquare /> Task</DropdownMenuItem>
-            <DropdownMenuItem><StickyNote /> Note</DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => setNewContactOpen(true)}>
+              <UserPlus /> Contact
+            </DropdownMenuItem>
+            <DropdownMenuItem disabled><Building2 /> Company</DropdownMenuItem>
+            <DropdownMenuItem disabled><Handshake /> Deal</DropdownMenuItem>
+            <DropdownMenuItem disabled><CheckSquare /> Task</DropdownMenuItem>
+            <DropdownMenuItem disabled><StickyNote /> Note</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuLabel className="font-normal text-muted">
+              More record types unlock with live data
+            </DropdownMenuLabel>
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
-          <Bell />
-          <span className="absolute right-2 top-2 size-1.5 rounded-full bg-brand" aria-hidden />
-        </Button>
-        <Button variant="ghost" size="icon" aria-label="Help" className="hidden sm:inline-flex">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" aria-label="Notifications">
+              <Bell />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-72">
+            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+            <div className="px-2 py-6 text-center text-sm text-muted">
+              You&apos;re all caught up. Task reminders, mentions, and payment
+              updates will land here.
+            </div>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <a
+          href="https://github.com/yubajefffries/secondtab#readme"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Help"
+          className={cn(buttonVariants({ variant: "ghost", size: "icon" }), "hidden sm:inline-flex")}
+        >
           <HelpCircle />
-        </Button>
+        </a>
 
         <div className="hidden items-center rounded-md border border-border p-0.5 sm:flex">
           <Button
@@ -136,10 +163,16 @@ export function Topbar({
               <span className="block font-normal text-muted">{currentUser.email}</span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/settings">Profile</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/settings">Settings</Link>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Sign out</DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => router.push("/sign-in")}>
+              Sign out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

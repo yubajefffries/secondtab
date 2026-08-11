@@ -243,12 +243,14 @@ export function RecordDetail(props: RecordDetailProps) {
 
         <TabsContent value="details">
           <Card className="p-8 text-center text-sm text-muted">
-            Custom fields render here from the field definitions configured in Settings.
+            No custom fields yet. Add fields like &ldquo;Vehicle type&rdquo; or
+            &ldquo;Listing address&rdquo; in Settings and they&rsquo;ll show up here.
           </Card>
         </TabsContent>
         <TabsContent value="files">
           <Card className="p-8 text-center text-sm text-muted">
-            No files yet. Attachments uploaded here are stored per-record with access control.
+            No files yet. Photos, quotes, and signed documents you attach will live
+            here with this record.
           </Card>
         </TabsContent>
         <TabsContent value="notes">
@@ -258,8 +260,8 @@ export function RecordDetail(props: RecordDetailProps) {
         </TabsContent>
         <TabsContent value="timeline">
           <Card className="p-8 text-center text-sm text-muted">
-            The full permission-aware timeline of emails, calls, stage changes, and
-            financial events appears here.
+            Nothing on the timeline yet. Emails, calls, stage changes, and payments
+            will show up here as they happen.
           </Card>
         </TabsContent>
       </Tabs>
