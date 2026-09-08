@@ -4,8 +4,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { getInstanceConfig } from "@/lib/instance-config";
 import "./globals.css";
 
-const { business_name } = getInstanceConfig();
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -16,14 +14,17 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: business_name,
-    template: `%s · ${business_name}`,
-  },
-  description:
-    "Your relationships, one tab away. Open source CRM for small service businesses, self-hostable on Vercel + Supabase.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { business_name } = await getInstanceConfig();
+  return {
+    title: {
+      default: business_name,
+      template: `%s · ${business_name}`,
+    },
+    description:
+      "Your relationships, one tab away. Open source CRM for small service businesses, self-hostable on Vercel + Supabase.",
+  };
+}
 
 export default function RootLayout({
   children,

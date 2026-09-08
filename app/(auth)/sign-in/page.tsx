@@ -7,8 +7,8 @@ import { SignInForm } from "./sign-in-form";
 
 export const metadata: Metadata = { title: "Sign in" };
 
-export default function SignInPage() {
-  const { business_name } = getInstanceConfig();
+export default async function SignInPage() {
+  const { business_name } = await getInstanceConfig();
   return (
     <div className="flex min-h-dvh items-center justify-center p-4">
       <div className="w-full max-w-sm">

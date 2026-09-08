@@ -51,17 +51,32 @@ With both public Supabase variables set, requests require authentication and sig
 uses Supabase email/password. Magic link and passkey controls are disabled. Missing
 either variable keeps demo mode, including the demo identity and branding.
 
-Set the server environment variable `INSTANCE_CONFIG` to a JSON object before
-building/deploying. Its public presentation fields match `instance_settings`:
-`business_name` (string), `logo_url` (string or null), `brand_primary` (string),
-`object_labels` (string map), and `enabled_modules` (boolean map). Do not put
-credentials in this value. The config is read from the environment in this PR,
-not from the database: the existing settings RLS requires an active user, while
-sign-in needs branding before authentication. No RLS or schema changes are needed.
+With Supabase configured, branding is read on each server request from the single
+`instance_settings` row (`id = 1`) through `public_instance_branding()`. Apply
+migration `00000000000004_public_instance_branding.sql` before deploying this change.
+The security definer function grants `anon` and `authenticated` access only to
+`business_name`, `logo_url`, `brand_primary`, `brand_accent`, `object_labels`, and
+`enabled_modules`. Direct settings reads and updates remain admin-only;
+`tax_settings` and `qbo_item_mappings` are never returned by the function.
+Branding uses the public Supabase key and the server session, without a service role key.
 
-Unconfigured live instances show "Your business". Demo defaults live in
-`lib/instance-config.ts`. The logo and color fields are part of the contract;
-this PR does not redesign their rendering.
+`INSTANCE_CONFIG` is an optional server environment JSON fallback when the RPC
+fails or the row is missing. Its supported keys are the same six public fields.
+Invalid or missing fallback JSON uses the built-in defaults. Live data takes
+precedence over the entire environment fallback; omitted label and module keys
+use built-in defaults. Do not put credentials in branding fields.
+
+Sign-in, the shell wordmark, and page title use the live business name.
+Unconfigured live instances show "Your business". Demo mode ignores both the RPC
+and `INSTANCE_CONFIG` and keeps the defaults in `lib/instance-config.ts`.
+Logo and color fields remain part of the contract without changing their rendering.
+
+Example realtor `object_labels` JSON for an administrator to configure as needed
+(documentation only, never applied as seed data):
+
+```json
+{"person": "Contacts", "company": "Brokerages", "deal": "Transactions"}
+```
 
 Sidebar label keys are `dashboard`, `person`, `company`, `deal`, `task`, `calendar`,
 `email`, `report`, `workflow`, and `settings`. Values are displayed verbatim, so use
