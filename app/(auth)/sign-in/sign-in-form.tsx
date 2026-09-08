@@ -48,7 +48,7 @@ export function SignInForm() {
             Email
           </label>
           <Input
-            id="email"
+            id="email" name="email"
             type="email"
             autoComplete="email"
             placeholder="you@company.com"
@@ -59,7 +59,7 @@ export function SignInForm() {
           <label htmlFor="password" className="mb-1.5 block text-sm font-medium">
             Password
           </label>
-          <Input id="password" type="password" autoComplete="current-password" required />
+          <Input id="password" name="password" type="password" autoComplete="current-password" required />
         </div>
         <p role="alert" className="text-sm text-danger">{error}</p>
         <Button type="submit" variant="primary" className="w-full" disabled={pending}>
