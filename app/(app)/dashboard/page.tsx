@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { isDemoMode } from "@/lib/supabase/server";
 import Link from "next/link";
 import {
   Users,
@@ -68,7 +69,7 @@ const activityIcon = {
 const priorityTone = { High: "danger", Medium: "warning", Low: "info" } as const;
 
 export default function DashboardPage() {
-  const firstName = currentUser.name.split(" ")[0];
+  const greeting = isDemoMode ? `Good morning, ${currentUser.name.split(" ")[0]}!` : "Good morning!";
   const funnelStages = stages;
   const totalPipeline = stages.reduce((s, st) => s + stageTotal(st.id), 0);
   const wonCount = dealsByStage("won").length;
@@ -80,7 +81,7 @@ export default function DashboardPage() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold tracking-tight">
-            Good morning, {firstName}! 👋
+            {greeting} 👋
           </h1>
           <p className="mt-1 text-sm text-muted">
             Here&apos;s what&apos;s happening with your business today.

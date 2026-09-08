@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
+import { getInstanceConfig } from "@/lib/instance-config";
 import "./globals.css";
+
+const { business_name } = getInstanceConfig();
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "SecondTab",
-    template: "%s · SecondTab",
+    default: business_name,
+    template: `%s · ${business_name}`,
   },
   description:
     "Your relationships, one tab away. Open source CRM for small service businesses, self-hostable on Vercel + Supabase.",
