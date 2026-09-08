@@ -43,3 +43,34 @@ git pull
 npx supabase db push   # applies pending migrations
 ```
 Redeploy on Vercel. Migrations are written expand/contract style, so a deploy and a migration never have to land in the same instant.
+
+
+## Instance presentation and sign-in
+
+With both public Supabase variables set, requests require authentication and sign-in
+uses Supabase email/password. Magic link and passkey controls are disabled. Missing
+either variable keeps demo mode, including the demo identity and branding.
+
+Set the server environment variable `INSTANCE_CONFIG` to a JSON object before
+building/deploying. Its public presentation fields match `instance_settings`:
+`business_name` (string), `logo_url` (string or null), `brand_primary` (string),
+`object_labels` (string map), and `enabled_modules` (boolean map). Do not put
+credentials in this value. The config is read from the environment in this PR,
+not from the database: the existing settings RLS requires an active user, while
+sign-in needs branding before authentication. No RLS or schema changes are needed.
+
+Unconfigured live instances show "Your business". Demo defaults live in
+`lib/instance-config.ts`. The logo and color fields are part of the contract;
+this PR does not redesign their rendering.
+
+Sidebar label keys are `dashboard`, `person`, `company`, `deal`, `task`, `calendar`,
+`email`, `report`, `workflow`, and `settings`. Values are displayed verbatim, so use
+the desired navigation label (for example, `{"deal":"Jobs"}`). The same keys may
+be set to false in `enabled_modules` to hide their sidebar items. `email` controls
+Communications. Email, calendar, QuickBooks, and AI default to disabled in live
+mode; other sidebar items default to visible. Enabling a module here only controls
+navigation and does not connect an integration.
+
+The shell reads the signed-in user's `profiles` row. If that row or its name is
+missing, the authenticated email is used instead of a demo identity. CRM pages
+continue using their existing demo datasets in this PR.

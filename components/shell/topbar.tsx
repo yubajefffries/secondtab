@@ -29,20 +29,37 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { currentUser } from "@/lib/demo-data";
+import type { SessionProfile } from "@/lib/session-profile";
+import { createClient, isDemoMode } from "@/lib/supabase/client";
 import { useDemoStore } from "@/lib/demo-store";
 import { cn } from "@/lib/utils";
 
 export function Topbar({
+  profile,
   onToggleSidebar,
   onOpenSearch,
 }: {
+  profile: SessionProfile;
   onToggleSidebar: () => void;
   onOpenSearch: () => void;
 }) {
   const { resolvedTheme, setTheme } = useTheme();
   const router = useRouter();
   const { setNewContactOpen } = useDemoStore();
+  const [signOutError, setSignOutError] = React.useState<string | null>(null);
+  async function signOut() {
+    setSignOutError(null);
+    try {
+      if (!isDemoMode) {
+        const { error } = await createClient().auth.signOut();
+        if (error) throw error;
+      }
+      router.replace("/sign-in");
+      router.refresh();
+    } catch {
+      setSignOutError("Unable to sign out. Please try again.");
+    }
+  }
   // true after hydration only; avoids a server/client mismatch on the theme toggle
   const mounted = React.useSyncExternalStore(
     React.useCallback(() => () => {}, []),
@@ -147,20 +164,21 @@ export function Topbar({
           </Button>
         </div>
 
+        {signOutError && <p role="alert" className="text-xs text-danger">{signOutError}</p>}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
               aria-label="Account menu"
               className="flex items-center gap-1 rounded-md p-1 hover:bg-hover"
             >
-              <Avatar name={currentUser.name} />
+              <Avatar name={profile.name} />
               <ChevronDown className="size-3.5 text-muted" aria-hidden />
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>
-              {currentUser.name}
-              <span className="block font-normal text-muted">{currentUser.email}</span>
+              {profile.name}
+              <span className="block font-normal text-muted">{profile.email}</span>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
@@ -170,7 +188,7 @@ export function Topbar({
               <Link href="/settings">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={() => router.push("/sign-in")}>
+            <DropdownMenuItem onSelect={() => void signOut()}>
               Sign out
             </DropdownMenuItem>
           </DropdownMenuContent>
