@@ -2,16 +2,30 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Handshake, Users, CheckSquare, LayoutGrid } from "lucide-react";
+import { Home, Handshake, Users, CheckSquare, LayoutGrid, Inbox } from "lucide-react";
+import { isDemoMode } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
-const tabs = [
+type Tab = { href: string; label: string; icon: typeof Home; badge?: number };
+
+const demoTabs: Tab[] = [
   { href: "/dashboard", label: "Home", icon: Home },
   { href: "/pipeline", label: "Deals", icon: Handshake },
   { href: "/contacts", label: "Contacts", icon: Users },
   { href: "/tasks", label: "Tasks", icon: CheckSquare, badge: 3 },
   { href: "/settings", label: "More", icon: LayoutGrid },
 ];
+
+// Live instances lead with the screens that read real data (no fake badge).
+const liveTabs: Tab[] = [
+  { href: "/leads", label: "Leads", icon: Inbox },
+  { href: "/contacts", label: "Contacts", icon: Users },
+  { href: "/dashboard", label: "Home", icon: Home },
+  { href: "/pipeline", label: "Deals", icon: Handshake },
+  { href: "/settings", label: "More", icon: LayoutGrid },
+];
+
+const tabs = isDemoMode ? demoTabs : liveTabs;
 
 export function MobileTabbar() {
   const pathname = usePathname();
