@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
+  Inbox,
   Building2,
   Filter,
   CheckSquare,
@@ -24,6 +25,7 @@ import { isDemoMode } from "@/lib/supabase/client";
 
 const nav = [
   { href: "/dashboard", key: "dashboard", icon: LayoutDashboard },
+  { href: "/leads", key: "lead", icon: Inbox },
   { href: "/contacts", key: "person", icon: Users },
   { href: "/companies", key: "company", icon: Building2 },
   { href: "/pipeline", key: "deal", icon: Filter },
@@ -73,7 +75,7 @@ export function Sidebar({ open, config, profile }: {
                   )}
                 >
                   <item.icon className="size-4.5 shrink-0" aria-hidden />
-                  <span className="flex-1">{config.object_labels[item.key]}</span>
+                  <span className="flex-1">{config.object_labels[item.key] ?? (item.key === "lead" ? "Leads" : item.key)}</span>
                 </Link>
               </li>
             );

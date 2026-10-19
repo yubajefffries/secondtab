@@ -31,7 +31,7 @@ export function SignInForm() {
         setError("Unable to sign in. Check your email and password and try again.");
         return;
       }
-      router.replace("/dashboard");
+      router.replace("/leads");
       router.refresh();
     } catch {
       setError("Unable to sign in. Please try again.");

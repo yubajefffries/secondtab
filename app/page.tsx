@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
+import { isDemoMode } from "@/lib/supabase/server";
 
 export default function Home() {
-  redirect("/dashboard");
+  redirect(isDemoMode ? "/dashboard" : "/leads");
 }

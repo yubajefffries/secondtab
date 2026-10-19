@@ -9,9 +9,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar } from "@/components/ui/avatar";
 import { useDemoStore } from "@/lib/demo-store";
+import type { Person } from "@/lib/demo-data";
 
-export function ContactsView() {
-  const { people, setNewContactOpen } = useDemoStore();
+export function ContactsView({ livePeople }: { livePeople?: Person[] }) {
+  const demo = useDemoStore();
+  // Live instances pass real rows; the demo store is only used in demo mode.
+  const isLive = livePeople !== undefined;
+  const people = livePeople ?? demo.people;
+  const { setNewContactOpen } = demo;
   const [filter, setFilter] = React.useState("");
   const [selected, setSelected] = React.useState<Set<string>>(new Set());
 
@@ -66,7 +71,12 @@ export function ContactsView() {
           <Button variant="secondary" disabled title="Export ships with live data wiring">
             <Download /> Export
           </Button>
-          <Button variant="primary" onClick={() => setNewContactOpen(true)}>
+          <Button
+            variant="primary"
+            onClick={() => setNewContactOpen(true)}
+            disabled={isLive}
+            title={isLive ? "Creating contacts ships with lead conversion" : undefined}
+          >
             <Plus /> New contact
           </Button>
         </div>
@@ -128,15 +138,26 @@ export function ContactsView() {
                   />
                 </td>
                 <td className="px-4 py-3">
-                  <Link href={`/contacts/${person.id}`} className="flex items-center gap-2.5 font-medium hover:text-brand">
-                    <Avatar name={person.name} />
-                    <span>
-                      {person.name}
-                      <span className="block text-xs font-normal text-muted">{person.title}</span>
+                  {isLive ? (
+                    // Record detail is still demo-backed; don't link live rows to it.
+                    <span className="flex items-center gap-2.5 font-medium">
+                      <Avatar name={person.name} />
+                      <span>
+                        {person.name}
+                        <span className="block text-xs font-normal text-muted">{person.title}</span>
+                      </span>
                     </span>
-                  </Link>
+                  ) : (
+                    <Link href={`/contacts/${person.id}`} className="flex items-center gap-2.5 font-medium hover:text-brand">
+                      <Avatar name={person.name} />
+                      <span>
+                        {person.name}
+                        <span className="block text-xs font-normal text-muted">{person.title}</span>
+                      </span>
+                    </Link>
+                  )}
                 </td>
-                <td className="px-4 py-3 text-secondary">{person.company}</td>
+                <td className="px-4 py-3 text-secondary">{person.company || "—"}</td>
                 <td className="px-4 py-3 text-secondary">
                   {person.email ? (
                     <a href={`mailto:${person.email}`} className="hover:text-brand">{person.email}</a>
@@ -164,8 +185,17 @@ export function ContactsView() {
             {visible.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-4 py-10 text-center text-sm text-muted">
-                  No contacts match &ldquo;{filter}&rdquo;. Clear the filter or create a new
-                  contact.
+                  {isLive && people.length === 0 ? (
+                    <>
+                      No contacts yet. New inquiries from your website are in{" "}
+                      <Link href="/leads" className="text-brand hover:underline">Leads</Link>.
+                    </>
+                  ) : (
+                    <>
+                      No contacts match &ldquo;{filter}&rdquo;. Clear the filter or create a new
+                      contact.
+                    </>
+                  )}
                 </td>
               </tr>
             )}
